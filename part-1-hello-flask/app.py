@@ -7,7 +7,7 @@
 #   2. How to create routes (URLs)
 #   3. How to render HTML templates
 # =============================================================================
-
+# start
 from flask import Flask, render_template
 # Hello durgesh
 # Create the Flask application

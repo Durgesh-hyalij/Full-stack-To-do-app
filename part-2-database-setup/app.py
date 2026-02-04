@@ -36,34 +36,54 @@ def home():
 def test_db():
     """
     Test route to verify database is working.
-    Creates a test user and todo if they don't exist.
+    Creates 3 test users and todos if DB is empty.
     """
-    # Check if test user exists
-    user = User.query.filter_by(username='testuser').first()
 
-    if not user:
-        # Create test user
-        user = User(
-            username='testuser',
-            email='test@example.com',
+    # Step 1: Check if any users exist
+    users = User.query.all()
+
+    if not users:
+        # Step 2: Create multiple users
+        user1 = User(
+            username='testuser1',
+            email='test1@example.com',
             password_hash='temporary'
         )
-        db.session.add(user)
-        db.session.commit()
 
-        # Create test todo
-        todo = Todo(
-            task_content='Learn SQLAlchemy',
-            user_id=user.id
+        user2 = User(
+            username='testuser2',
+            email='test2@example.com',
+            password_hash='temporary'
         )
-        db.session.add(todo)
+
+        user3 = User(
+            username='testuser3',
+            email='test3@example.com',
+            password_hash='temporary'
+        )
+
+        # Step 3: Add all users at once
+        db.session.add_all([user1, user2, user3])
         db.session.commit()
 
-    # Get all users and todos for display
+        # Step 4: Create todos for each user
+        todo1 = Todo(task_content='Learn Flask', user_id=user1.id)
+        todo2 = Todo(task_content='Learn SQLAlchemy', user_id=user2.id)
+        todo3 = Todo(task_content='Build Todo App', user_id=user3.id)
+
+        db.session.add_all([todo1, todo2, todo3])
+        db.session.commit()
+
+    # Step 5: Fetch all data to display
     all_users = User.query.all()
     all_todos = Todo.query.all()
 
-    return render_template('test_db.html', users=all_users, todos=all_todos)
+    return render_template(
+        'test_db.html',
+        users=all_users,
+        todos=all_todos
+    )
+
 
 
 # =============================================================================

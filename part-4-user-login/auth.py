@@ -58,7 +58,7 @@ def create_token(user_id, is_admin=False):
 
     The token is sent to the client and stored in localStorage.
     """
-    payload = {
+    payload = {   #Payload = the data stored inside the token , It is NOT encrypted, only signed
         'user_id': user_id,
         'is_admin': is_admin,
         'exp': datetime.utcnow() + timedelta(hours=TOKEN_EXPIRATION_HOURS),

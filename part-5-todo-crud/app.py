@@ -102,6 +102,7 @@ def api_login():
 @app.route('/api/todos', methods=['GET'])  # READ operation
 def get_todos():
     user_id = request.args.get('user_id')  # Get from URL: ?user_id=1 (NOT SECURE!)
+    # print(user_id)
     if not user_id:
         return jsonify({'error': 'user_id required'}), 400
 
@@ -126,7 +127,7 @@ def create_todo():
     user_id = data.get('user_id')
 
     if not task_content or not user_id:
-        return jsonify({'error': 'task_content and user_id required'}), 400
+        return jsonify({'error': 'task_content and   user_id required'}), 400
 
     todo = Todo(
         task_content=task_content,

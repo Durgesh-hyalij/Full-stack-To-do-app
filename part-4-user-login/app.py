@@ -45,7 +45,7 @@ def dashboard_page():
 @app.route('/api/register', methods=['POST'])
 def api_register():
     data = request.get_json()  # Get JSON from request body
-
+    print(data)
     if not data:
         return jsonify({'error': 'No data provided'}), 400  # 400 = Bad Request
 
@@ -80,25 +80,37 @@ def api_register():
 @app.route('/api/login', methods=['POST'])
 def api_login():
     data = request.get_json()
-
+    print(data)
     if not data:
         return jsonify({'error': 'No data provided'}), 400
 
     email = data.get('email')
     password = data.get('password')
 
-    if not email or not password:
+    # if not email or not password:
+    #     return jsonify({'error': 'Email and password required'}), 400
+    
+    if not email:
+        return jsonify({'error': 'Email  required'}), 400
+    
+    if not password:
         return jsonify({'error': 'Email and password required'}), 400
 
     user = User.query.filter_by(email=email).first()  # Find user by email
 
-    if not user or not verify_password(user.password_hash, password):  # Check password
-        return jsonify({'error': 'Invalid email or password'}), 401  # 401 = Unauthorized
+    if not user or not verify_password(user.password_hash, password):  # Check password , return check_password_hash(password_hash, password)(inbuilt   )
+        print(user.password_hash)
+        print(password)
+
+        return jsonify({'error': 'Invalid email or passworddd '}), 401  # 401 = Unauthorized
 
     token = create_token(user.id, user.is_admin)  # Create JWT token
+    print("_------------Token-----------")
+    print(token)
+    # print(user.id)
 
     return jsonify({
-        'message': 'Login successful!',
+        'message': 'Login successful!',  
         'token': token,  # Frontend stores this in localStorage
         'user': {
             'id': user.id,

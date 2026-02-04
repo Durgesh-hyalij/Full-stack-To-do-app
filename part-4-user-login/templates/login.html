@@ -70,6 +70,7 @@
                     // Store token and user info
                     localStorage.setItem('token', data.token);
                     localStorage.setItem('user', JSON.stringify(data.user));
+                    localStorage.setItem('durgesh', "hello...hii..how are you....");
 
                     alertArea.innerHTML = `<div class="alert alert-success">${data.message}</div>`;
                     setTimeout(() => { window.location.href = '/dashboard'; }, 1000);
